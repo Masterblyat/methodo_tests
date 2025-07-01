@@ -37,11 +37,7 @@ jobs:
       run: ./gradlew build --no-daemon
 
     - name: Run tests
-      run: ./gradlew test --no-daemon
-
-    - name: Generate test report
-      run: ./gradlew jacocoTestReport --no-daemon
-      if: always()
+      run: ./gradlew test --no-daemon --continue
 
     - name: Publish test results
       uses: dorny/test-reporter@v1

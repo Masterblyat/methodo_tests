@@ -1,8 +1,11 @@
+import org.gradle.testing.jacoco.tasks.JacocoReport
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.5.3"
 	id("io.spring.dependency-management") version "1.1.7"
+	jacoco
 }
 
 group = "com.example"
@@ -38,4 +41,14 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	finalizedBy("jacocoTestReport")
+}
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+	dependsOn("test")
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(false)
+	}
 }
