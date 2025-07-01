@@ -40,13 +40,10 @@ jobs:
       run: ./gradlew test --no-daemon --continue
 
     - name: Publish test results
-      uses: dorny/test-reporter@v1
+      uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
-        name: 'Test Results'
-        path: 'build/test-results/test/*.xml'
-        reporter: 'java-junit'
-        fail-on-error: true
+        files: 'build/test-results/test/*.xml'
 
     - name: Upload test reports
       uses: actions/upload-artifact@v4
