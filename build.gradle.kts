@@ -5,7 +5,8 @@ plugins {
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.5.3"
 	id("io.spring.dependency-management") version "1.1.7"
-	jacoco
+	id("info.solidsoft.pitest") version "1.19.0-rc.1"
+	id("jacoco")
 }
 
 group = "com.example"
@@ -51,4 +52,19 @@ tasks.named<JacocoReport>("jacocoTestReport") {
 		html.required.set(true)
 		csv.required.set(false)
 	}
+}
+
+configure<JacocoPluginExtension> {
+	toolVersion = "0.8.13"
+}
+
+pitest {
+	testPlugin = "junit5"
+	avoidCallsTo = setOf("kotlin.jvm.internal")
+	threads = 4
+	outputFormats = setOf("XML", "HTML")
+	timestampedReports = false
+	targetClasses = setOf("com.example.demo.*")
+	targetTests = setOf("com.example.demo.*")
+	excludedClasses = setOf("com.example.demo.DemoApplication*")
 }
